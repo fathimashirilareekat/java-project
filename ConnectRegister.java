@@ -18,27 +18,39 @@ public class MainPage extends JFrame {
         // Panel for buttons
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 1, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+
         panel.add(registerButton);
         panel.add(loginButton);
         panel.add(hostelButton);
 
-        add(panel);
-
-        // Action when clicking Register
+        // Add action listeners
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new RegisterPage().setVisible(true);  // Open Register Page
+                // Open Register Page
+                RegisterPage registerPage = new RegisterPage();
+                registerPage.setVisible(true);
             }
         });
 
-        // (You can later add login and hostel details actions here)
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Login Page coming soon!");
+            }
+        });
+
+        hostelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Hostel Details Page coming soon!");
+            }
+        });
+
+        add(panel);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new MainPage().setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            new MainPage().setVisible(true);
         });
     }
 }
