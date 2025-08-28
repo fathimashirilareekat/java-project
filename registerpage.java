@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class RegisterPage extends JFrame {
 
     // Declare text fields
-    private JTextField nameField, admissionField, teamRankField, phoneField, emailField, guardianNameField;
+    private JTextField nameField, admissionField, keamRankField, phoneField, emailField, guardianNameField;
     private JTextArea addressArea, guardianDetailsArea;
 
     public RegisterPage() {
@@ -33,9 +33,9 @@ public class RegisterPage extends JFrame {
         admissionField = new JTextField();
         panel.add(admissionField);
 
-        // keam Rank
-        panel.add(new JLabel("keam Rank:"));
-        teamRankField = new JTextField();
+        // KEAM Rank
+        panel.add(new JLabel("KEAM Rank:"));
+        keamRankField = new JTextField();
         panel.add(keamRankField);
 
         // Phone Number
@@ -62,16 +62,16 @@ public class RegisterPage extends JFrame {
         JButton submitButton = new JButton("Submit");
         panel.add(submitButton);
 
-        // Empty placeholder to align button properly
+        // Empty placeholder
         panel.add(new JLabel(""));
 
-        // Add ActionListener for Submit
+        // Action listener for submit
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String data = "Name: " + nameField.getText() +
                         "\nAddress: " + addressArea.getText() +
                         "\nAdmission No: " + admissionField.getText() +
-                        "\nKeam Rank: " + keamRankField.getText() +
+                        "\nKEAM Rank: " + keamRankField.getText() +
                         "\nPhone: " + phoneField.getText() +
                         "\nEmail: " + emailField.getText() +
                         "\nGuardian Name: " + guardianNameField.getText() +
