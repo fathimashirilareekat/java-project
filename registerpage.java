@@ -33,10 +33,10 @@ public class RegisterPage extends JFrame {
         admissionField = new JTextField();
         panel.add(admissionField);
 
-        // Team Rank
-        panel.add(new JLabel("Team Rank:"));
+        // keam Rank
+        panel.add(new JLabel("keam Rank:"));
         teamRankField = new JTextField();
-        panel.add(teamRankField);
+        panel.add(keamRankField);
 
         // Phone Number
         panel.add(new JLabel("Phone Number:"));
@@ -71,7 +71,7 @@ public class RegisterPage extends JFrame {
                 String data = "Name: " + nameField.getText() +
                         "\nAddress: " + addressArea.getText() +
                         "\nAdmission No: " + admissionField.getText() +
-                        "\nTeam Rank: " + teamRankField.getText() +
+                        "\nKeam Rank: " + keamRankField.getText() +
                         "\nPhone: " + phoneField.getText() +
                         "\nEmail: " + emailField.getText() +
                         "\nGuardian Name: " + guardianNameField.getText() +
