@@ -1,82 +1,85 @@
-﻿<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Hostel Room Allocation - LBS College of Engineering</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #f0f4f7, #d9e2ec);
             text-align: center;
-            padding: 50px;
+            padding: 50px 20px;
         }
         h1 {
-            color: #2c3e50;
-            margin-bottom: 60px;
-            text-transform: uppercase; 
+            color: #1f3c88;
+            margin-bottom: 50px;
+            text-transform: uppercase;
             font-weight: bold;
             letter-spacing: 2px;
         }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
         .button {
-            display: inline-block;
-            background-color: #2980b9;
+            display: block;
+            background-color: #3b82f6;
             color: white;
             padding: 15px 30px;
-            margin: 10px auto;
             font-size: 18px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
-            transition: background-color 0.3s ease;
-            width: 250px; 
-            text-align: center;
+            width: 250px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         .button:hover {
-            background-color: #3498db;
+            background-color: #2563eb;
+            transform: translateY(-2px);
         }
-        .button.admin {
-            background-color: #8e44ad;
-        }
-        .button.admin:hover {
-            background-color: #9b59b6;
-        }
-        .form-group {
-            width: 250px;
-            margin: 0 auto 20px auto;
-            text-align: left;
+        .button.register { background-color: #10b981; }
+        .button.register:hover { background-color: #059669; }
+        .button.login { background-color: #f59e0b; }
+        .button.login:hover { background-color: #b45309; }
+        .button.admin { background-color: #8b5cf6; }
+        .button.admin:hover { background-color: #6d28d9; }
+        .button.details { background-color: #ef4444; }
+        .button.details:hover { background-color: #b91c1c; }
+
+        .login-form {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .form-group input[type="text"] {
+        .login-form input[type="text"] {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            border-radius: 4px;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
             border: 1px solid #ccc;
+            font-size: 16px;
             box-sizing: border-box;
         }
-        .form-group input[type="submit"] {
+        .login-form input[type="submit"] {
             width: 100%;
             padding: 12px;
             font-size: 16px;
-            border-radius: 4px;
+            border-radius: 6px;
             border: none;
-            background-color: #27ae60;
+            background-color: #f59e0b;
             color: white;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
         }
-        .form-group input[type="submit"]:hover {
-            background-color: #2ecc71;
+        .login-form input[type="submit"]:hover {
+            background-color: #b45309;
         }
     </style>
 </head>
@@ -84,26 +87,20 @@
 
     <h1>LBS COLLEGE OF ENGINEERING HOSTEL</h1>
 
-    <!-- Register and Login grouped -->
-    <div class="form-group">
-        <label>Register</label>
-        <a href="register.jsp" class="button" style="margin-bottom: 20px; display: block;">Register Here</a>
+    <div class="container">
+        <a href="register.jsp" class="button register">Register</a>
 
-        <label>Login</label>
-        <form action="student-login" method="post" style="margin-top: 10px;">
-            <input type="text" name="name" placeholder="Name" required />
-            <input type="text" name="admission_no" placeholder="Admission Number" required />
-            <input type="submit" value="Login" />
-        </form>
+        <div class="login-form">
+            <h3>Login</h3>
+            <form action="student-login" method="post">
+                <input type="text" name="admission_no" placeholder="Admission Number" required />
+                <input type="submit" value="Login" />
+            </form>
+        </div>
+
+        <a href="admin_login.jsp" class="button admin">Admin Login</a>
+        <a href="hostel_details.jsp" class="button details">Hostel Details</a>
     </div>
-
-    <!-- Admin Login Button -->
-    <a href="admin_login.jsp" class="button admin">Admin Login</a>
-
-    <br/>
-
-    <!-- Hostel Details Button -->
-    <a href="hostel_details.jsp" class="button" style="margin-top: 20px;">Hostel Details</a>
 
 </body>
 </html>
