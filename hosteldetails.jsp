@@ -15,8 +15,15 @@
             text-transform: uppercase;
         }
         h1 { text-align: center; margin-bottom: 40px; }
-        .section { background: white; padding: 25px 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .section { 
+            background: white; 
+            padding: 25px 20px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
         ul { margin-left: 20px; }
+        ol { margin-left: 20px; }
         .back-button {
             display: block;
             width: 150px;
@@ -31,9 +38,7 @@
             text-align: center;
             cursor: pointer;
         }
-        .back-button:hover {
-            background-color: #059669;
-        }
+        .back-button:hover { background-color: #059669; }
     </style>
 </head>
 <body>
@@ -122,7 +127,9 @@
     </ol>
 </div>
 
-<a href="index.html" class="back-button">Back</a>
+<a href="frontpage.jsp" class="back-button">Back</a>
 
 </body>
 </html>
+
+
