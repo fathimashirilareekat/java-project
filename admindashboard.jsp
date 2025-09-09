@@ -4,56 +4,65 @@
 <head>
     <title>Admin Dashboard - LBS Hostel</title>
     <style>
-        body { font-family: Arial; text-align: center; padding: 50px; background: #f0f4f7; }
+        body { font-family: Arial, sans-serif; background: #f0f4f7; padding: 50px 20px; text-align: center; }
         h1 { color: #1f3c88; text-transform: uppercase; margin-bottom: 30px; }
-        .form-card { background: white; padding: 25px; border-radius: 10px; width: 400px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: left; }
-        .form-card label { font-weight: bold; margin-top: 10px; display: block; }
-        .form-card input, .form-card textarea { width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; }
-        .form-card button { width: 100%; padding: 12px; margin-top: 15px; border-radius: 6px; border: none; background-color: #10b981; color: white; cursor: pointer; }
-        .form-card button:hover { background-color: #059669; }
-        #message { color: green; font-weight: bold; margin-bottom: 15px; text-align: center; }
+        table { width: 90%; margin: 0 auto 30px auto; border-collapse: collapse; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #ccc; padding: 12px; text-align: center; }
+        th { background-color: #3b82f6; color: white; }
+        .button { padding: 10px 20px; background-color: #10b981; color: white; text-decoration: none; border-radius: 6px; margin: 5px; display: inline-block; }
+        .button:hover { background-color: #059669; }
     </style>
 </head>
 <body>
 
 <h1>Admin Dashboard</h1>
 
-<div class="form-card">
-    <div id="message"></div>
-    <form id="allocateForm">
-        <label>Student Admission Number:</label>
-        <input type="text" id="studentAdmission" placeholder="Enter Admission No" required>
-        <label>Room Number to Allocate:</label>
-        <input type="text" id="roomNumber" placeholder="Enter Room No" required>
-        <button type="submit">Allocate Room</button>
-    </form>
-</div>
+<!-- Example Table: Students & Room Numbers -->
+<h2>Student Room Allocations</h2>
+<table>
+    <tr>
+        <th>Admission No</th>
+        <th>Name</th>
+        <th>Year</th>
+        <th>Hostel</th>
+        <th>Room No</th>
+    </tr>
+    <tr>
+        <td>2025ME001</td>
+        <td>John Doe</td>
+        <td>First Year</td>
+        <td>Mens Hostel</td>
+        <td>101</td>
+    </tr>
+    <tr>
+        <td>2025CE002</td>
+        <td>Jane Smith</td>
+        <td>Second Year</td>
+        <td>Ladies Hostel</td>
+        <td>201</td>
+    </tr>
+</table>
 
-<script>
-const allocateForm = document.getElementById("allocateForm");
-const messageDiv = document.getElementById("message");
+<!-- Example Table: Complaints -->
+<h2>Student Complaints</h2>
+<table>
+    <tr>
+        <th>Complaint ID</th>
+        <th>Student Admission No</th>
+        <th>Room No</th>
+        <th>Complaint</th>
+        <th>Date</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2025ME001</td>
+        <td>101</td>
+        <td>Leaky faucet in bathroom</td>
+        <td>2025-09-09</td>
+    </tr>
+</table>
 
-allocateForm.addEventListener("submit", function(e){
-    e.preventDefault();
-    const admissionNo = document.getElementById("studentAdmission").value.trim();
-    const roomNo = document.getElementById("roomNumber").value.trim();
-
-    if(admissionNo === "" || roomNo === ""){
-        messageDiv.style.color = "red";
-        messageDiv.innerText = "Fill in all fields!";
-        return;
-    }
-
-    // Save room allocation in localStorage for simplicity
-    localStorage.setItem("roomNo", roomNo);
-    localStorage.setItem("studentAllocated", admissionNo);
-
-    messageDiv.style.color = "green";
-    messageDiv.innerText = `Room ${roomNo} allocated to Admission No ${admissionNo}!`;
-
-    allocateForm.reset();
-});
-</script>
+<a href="admin_login.jsp" class="button">Logout</a>
 
 </body>
 </html>
