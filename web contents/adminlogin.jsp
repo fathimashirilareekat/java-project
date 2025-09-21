@@ -14,20 +14,38 @@
     </style>
 </head>
 <body>
-
 <h1>Admin Login</h1>
 
 <div class="form-card">
     <div id="message"></div>
-    <form action="AdminLoginServlet" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
+    <form id="adminForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
         <button type="submit">Login</button>
     </form>
 </div>
 
+<script>
+const adminForm = document.getElementById("adminForm");
+const messageDiv = document.getElementById("message");
+
+// Hardcoded credentials
+const adminUser = "admin";
+const adminPass = "1234";
+
+adminForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if(username === adminUser && password === adminPass){
+        // Save login state
+        localStorage.setItem("adminLoggedIn", "true");
+        window.location.href = "admin_dashboard.html";
+    } else {
+        messageDiv.innerText = "Invalid credentials!";
+    }
+});
+</script>
 </body>
 </html>
-
-   
-
