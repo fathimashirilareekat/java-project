@@ -29,3 +29,9 @@ CREATE TABLE complaints (
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
 );
+
+CREATE TABLE rooms (
+    room_no INT PRIMARY KEY,
+    capacity INT NOT NULL,
+    allocated INT DEFAULT 0
+);
