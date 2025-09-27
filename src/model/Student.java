@@ -6,33 +6,62 @@ public class Student {
     private String admissionNo;
     private int keamRank;
     private String phone;
-    private String address;
-    private int roomNo;
-    private String password;
+    private String email;
+    private String year;
+    private String hostelType;
+    private String roomNo;
 
-    // Getters and Setters for all fields
+    // Constructor without ID (for registration)
+    public Student(String name, String admissionNo, int keamRank, String phone,
+                   String email, String year, String hostelType, String roomNo) {
+        this.name = name;
+        this.admissionNo = admissionNo;
+        this.keamRank = keamRank;
+        this.phone = phone;
+        this.email = email;
+        this.year = year;
+        this.hostelType = hostelType;
+        this.roomNo = roomNo;
+    }
 
+    // Constructor with ID (for fetching)
+    public Student(int id, String name, String admissionNo, int keamRank, String phone,
+                   String email, String year, String hostelType, String roomNo) {
+        this.id = id;
+        this.name = name;
+        this.admissionNo = admissionNo;
+        this.keamRank = keamRank;
+        this.phone = phone;
+        this.email = email;
+        this.year = year;
+        this.hostelType = hostelType;
+        this.roomNo = roomNo;
+    }
+
+    // Getters
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
     public String getAdmissionNo() { return admissionNo; }
-    public void setAdmissionNo(String admissionNo) { this.admissionNo = admissionNo; }
-
     public int getKeamRank() { return keamRank; }
-    public void setKeamRank(int keamRank) { this.keamRank = keamRank; }
-
     public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public String getEmail() { return email; }
+    public String getYear() { return year; }
+    public String getHostelType() { return hostelType; }
+    public String getRoomNo() { return roomNo; }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-
-    public int getRoomNo() { return roomNo; }
-    public void setRoomNo(int roomNo) { this.roomNo = roomNo; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", admissionNo='" + admissionNo + '\'' +
+                ", keamRank=" + keamRank +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", year='" + year + '\'' +
+                ", hostelType='" + hostelType + '\'' +
+                ", roomNo='" + roomNo + '\'' +
+                '}';
+    }
 }
+
