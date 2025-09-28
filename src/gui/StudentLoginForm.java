@@ -5,79 +5,67 @@ import model.Student;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class StudentLoginForm extends JFrame {
-    private JTextField admissionNoField;
-    private JTextField keamRankField;
-    private JButton loginBtn, cancelBtn;
+
+    private JLabel lblAdmissionNo;
+    private JTextField txtAdmissionNo;
+    private JButton loginBtn, registerBtn;
 
     public StudentLoginForm() {
         setTitle("Student Login");
-        setSize(350, 200);
+        setSize(400, 200);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        setLayout(new GridLayout(3, 2, 10, 10));
 
         // Admission No
-        panel.add(new JLabel("Admission No:"));
-        admissionNoField = new JTextField();
-        panel.add(admissionNoField);
+        lblAdmissionNo = new JLabel("Admission No:");
+        txtAdmissionNo = new JTextField();
 
-        // KEAM Rank (acting as password here)
-        panel.add(new JLabel("KEAM Rank:"));
-        keamRankField = new JTextField();
-        panel.add(keamRankField);
+        add(lblAdmissionNo);
+        add(txtAdmissionNo);
 
         // Buttons
         loginBtn = new JButton("Login");
-        cancelBtn = new JButton("Cancel");
+        registerBtn = new JButton("Register");
 
-        panel.add(loginBtn);
-        panel.add(cancelBtn);
+        add(loginBtn);
+        add(registerBtn);
 
-        add(panel);
+        // Login button action
+        loginBtn.addActionListener(e -> {
+            String admissionNo = txtAdmissionNo.getText().trim();
+            if (admissionNo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter Admission Number!");
+                return;
+            }
 
-        // Action: Login
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loginStudent();
+            StudentDAO dao = new StudentDAO();
+            Student student = dao.getStudentByAdmissionNo(admissionNo);
+
+            if (student != null) {
+                JOptionPane.showMessageDialog(this, "✅ Login successful!");
+                dispose();
+                new StudentDashboard(student);
+            } else {
+                JOptionPane.showMessageDialog(this, "❌ Student not found!");
             }
         });
 
-        // Action: Cancel
-        cancelBtn.addActionListener(e -> dispose());
+        // Register button action
+        registerBtn.addActionListener(e -> {
+            dispose();
+            new StudentRegisterForm(); // your registration form
+        });
 
         setVisible(true);
     }
 
-    private void loginStudent() {
-        String admissionNo = admissionNoField.getText();
-        String keamRank = keamRankField.getText();
-
-        if (admissionNo.isEmpty() || keamRank.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill all fields.");
-            return;
-        }
-
-        try {
-            StudentDAO dao = new StudentDAO();
-            Student student = dao.getStudentByAdmissionNo(admissionNo);
-
-            if (student != null && String.valueOf(student.getKeamRank()).equals(keamRank)) {
-                JOptionPane.showMessageDialog(this, "Login Successful! Welcome " + student.getName());
-                // TODO: Open student dashboard (Room status, complaints, etc.)
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid Admission No or KEAM Rank");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-        }
-    }
-
+    // Quick test
     public static void main(String[] args) {
         new StudentLoginForm();
     }
 }
+
+
