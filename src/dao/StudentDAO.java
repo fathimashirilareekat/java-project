@@ -1,73 +1,110 @@
 package dao;
 
 import model.Student;
+import util.DBConnection;
+
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDAO {
 
-    public List<Student> getStudentsWithoutRoom() throws Exception {
-        List<Student> students = new ArrayList<>();
-        Connection con = DBConnection.getConnection();
-        String sql = "SELECT * FROM students WHERE room_no = 0 OR room_no IS NULL ORDER BY keam_rank ASC";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
+    // Insert a new student
+    public boolean registerStudent(Student student) {
+        String sql = "INSERT INTO students (name, admission_no, keam_rank, phone, email, year, hostel_type, room_no) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        while (rs.next()) {
-            Student s = new Student();
-            s.setId(rs.getInt("id"));
-            s.setName(rs.getString("name"));
-            s.setAdmissionNo(rs.getString("admission_no"));
-            s.setKeamRank(rs.getInt("keam_rank"));
-            s.setPhone(rs.getString("phone"));
-            s.setAddress(rs.getString("address"));
-            s.setRoomNo(rs.getInt("room_no"));
-            s.setPassword(rs.getString("password"));
-            students.add(s);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, student.getName());
+            stmt.setString(2, student.getAdmissionNo());
+            stmt.setInt(3, student.getKeamRank());
+            stmt.setString(4, student.getPhone());
+            stmt.setString(5, student.getEmail());
+            stmt.setString(6, student.getYear());
+            stmt.setString(7, student.getHostelType());
+            stmt.setString(8, student.getRoomNo());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        con.close();
-        return students;
+        return false;
     }
 
-    public void updateStudentRoom(String admissionNo, int roomNo) throws Exception {
-        Connection con = DBConnection.getConnection();
-        String sql = "UPDATE students SET room_no = ? WHERE admission_no = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, roomNo);
-        ps.setString(2, admissionNo);
-        ps.executeUpdate();
-        con.close();
+    // Fetch student by admission number
+    public Student getStudentByAdmissionNo(String admissionNo) {
+        String sql = "SELECT * FROM students WHERE admission_no = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, admissionNo);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Student(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("admission_no"),
+                        rs.getInt("keam_rank"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("year"),
+                        rs.getString("hostel_type"),
+                        rs.getString("room_no")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public List<Student> getAllStudents() throws Exception {
+    // Fetch all students (for admin dashboard)
+    public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>();
-        Connection con = DBConnection.getConnection();
         String sql = "SELECT * FROM students";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Student s = new Student();
-            s.setId(rs.getInt("id"));
-            s.setName(rs.getString("name"));
-            s.setAdmissionNo(rs.getString("admission_no"));
-            s.setKeamRank(rs.getInt("keam_rank"));
-            s.setPhone(rs.getString("phone"));
-            s.setAddress(rs.getString("address"));
-            s.setRoomNo(rs.getInt("room_no"));
-            s.setPassword(rs.getString("password"));
-            students.add(s);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                students.add(new Student(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("admission_no"),
+                        rs.getInt("keam_rank"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("year"),
+                        rs.getString("hostel_type"),
+                        rs.getString("room_no")
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        con.close();
         return students;
     }
 
-    public void deleteStudent(String admissionNo) throws Exception {
-        Connection con = DBConnection.getConnection();
-        String sql = "DELETE FROM students WHERE admission_no = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, admissionNo);
-        ps.executeUpdate();
-        con.close();
+    // Update room allocation
+    public boolean updateRoom(int studentId, String roomNo) {
+        String sql = "UPDATE students SET room_no = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, roomNo);
+            ps.setInt(2, studentId);
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
+
