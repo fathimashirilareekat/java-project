@@ -10,7 +10,7 @@ public class StudentLoginForm extends JFrame {
 
     private JLabel lblAdmissionNo;
     private JTextField txtAdmissionNo;
-    private JButton loginBtn, registerBtn;
+    private JButton loginBtn, backBtn;
 
     public StudentLoginForm() {
         setTitle("Student Login");
@@ -28,10 +28,10 @@ public class StudentLoginForm extends JFrame {
 
         // Buttons
         loginBtn = new JButton("Login");
-        registerBtn = new JButton("Register");
+        backBtn = new JButton("Back"); // Changed from "Register" to "Back"
 
         add(loginBtn);
-        add(registerBtn);
+        add(backBtn);
 
         // Login button action
         loginBtn.addActionListener(e -> {
@@ -53,10 +53,10 @@ public class StudentLoginForm extends JFrame {
             }
         });
 
-        // Register button action
-        registerBtn.addActionListener(e -> {
-            dispose();
-            new StudentRegisterForm(); // your registration form
+        // Back button action
+        backBtn.addActionListener(e -> {
+            new FrontPage(); // Go back to main menu
+            dispose();      // Close login form
         });
 
         setVisible(true);
@@ -67,5 +67,3 @@ public class StudentLoginForm extends JFrame {
         new StudentLoginForm();
     }
 }
-
-

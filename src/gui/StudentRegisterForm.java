@@ -8,8 +8,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class StudentRegisterForm extends JFrame {
-    private JTextField nameField, admissionNoField, keamRankField, phoneField, emailField, yearField, hostelTypeField, roomNoField;
-    private JButton registerBtn, cancelBtn;
+    private JTextField nameField, admissionNoField, keamRankField, phoneField, emailField, yearField, hostelTypeField;
+    private JButton registerBtn, backBtn;
 
     public StudentRegisterForm() {
         setTitle("Student Registration");
@@ -17,7 +17,7 @@ public class StudentRegisterForm extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel panel = new JPanel(new GridLayout(9, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(8, 2, 10, 10));
 
         // Form labels and inputs
         panel.add(new JLabel("Name:"));
@@ -48,29 +48,21 @@ public class StudentRegisterForm extends JFrame {
         hostelTypeField = new JTextField();
         panel.add(hostelTypeField);
 
-        panel.add(new JLabel("Room No:"));
-        roomNoField = new JTextField();
-        panel.add(roomNoField);
-
         // Buttons
         registerBtn = new JButton("Register");
-        cancelBtn = new JButton("Cancel");
-
+        backBtn = new JButton("Back");  
         panel.add(registerBtn);
-        panel.add(cancelBtn);
+        panel.add(backBtn);
 
         add(panel);
 
-        // Action: Register
-        registerBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                registerStudent();
-            }
-        });
+        // Button Actions
+        registerBtn.addActionListener(e -> registerStudent());
 
-        // Action: Cancel
-        cancelBtn.addActionListener(e -> dispose());
+        backBtn.addActionListener(e -> {
+            new FrontPage(); // Open main menu
+            dispose();      // Close current form
+        });
 
         setVisible(true);
     }
@@ -84,11 +76,11 @@ public class StudentRegisterForm extends JFrame {
             String email = emailField.getText();
             String year = yearField.getText();
             String hostelType = hostelTypeField.getText();
-            String roomNo = roomNoField.getText();
 
-            Student student = new Student(0, name, admissionNo, keamRank, phone, email, year, hostelType, roomNo);
+            // Room no empty for now
+            Student student = new Student(name, admissionNo, keamRank, phone, email, year, hostelType, "");
+
             StudentDAO dao = new StudentDAO();
-
             if (dao.registerStudent(student)) {
                 JOptionPane.showMessageDialog(this, "Student Registered Successfully!");
             } else {

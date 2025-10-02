@@ -9,7 +9,7 @@ public class AdminLoginForm extends JFrame {
 
     private JTextField txtUsername;
     private JPasswordField txtPassword;
-    private JButton loginBtn, cancelBtn;
+    private JButton loginBtn, backBtn;
 
     public AdminLoginForm() {
         setTitle("Admin Login");
@@ -46,9 +46,9 @@ public class AdminLoginForm extends JFrame {
 
         JPanel btnPanel = new JPanel();
         loginBtn = new JButton("Login");
-        cancelBtn = new JButton("Cancel");
+        backBtn = new JButton("Back"); // Changed from Cancel
         btnPanel.add(loginBtn);
-        btnPanel.add(cancelBtn);
+        btnPanel.add(backBtn);
         add(btnPanel, gbc);
 
         // Login action
@@ -71,9 +71,10 @@ public class AdminLoginForm extends JFrame {
             }
         });
 
-        // Cancel action
-        cancelBtn.addActionListener(e -> {
-            dispose();
+        // Back button action
+        backBtn.addActionListener(e -> {
+            new FrontPage(); // Go back to front page
+            dispose();       // Close admin login form
         });
 
         setVisible(true);

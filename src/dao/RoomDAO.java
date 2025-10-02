@@ -1,5 +1,6 @@
 package dao;
 
+import util.DBConnection;
 import model.Room;
 import java.sql.*;
 import java.util.*;
