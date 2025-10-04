@@ -52,14 +52,21 @@ public class AdminDashboard extends JFrame {
             }
 
             int studentId = (int) model.getValueAt(row, 0);
-            String roomNoStr = JOptionPane.showInputDialog("Enter Room No:");
-            if (roomNoStr != null && !roomNoStr.trim().isEmpty()) {
+            String roomNo = JOptionPane.showInputDialog("Enter Room No:");
+
+            if (roomNo != null && !roomNo.trim().isEmpty()) {
                 try {
-                    int roomNo = Integer.parseInt(roomNoStr);
                     RoomDAO roomDAO = new RoomDAO();
                     List<Room> rooms = roomDAO.getAllRooms();
                     Room selectedRoom = null;
-                    for (Room r : rooms) if (r.getRoomNo() == roomNo) selectedRoom = r;
+
+                    // find the room by its number (case-insensitive)
+                    for (Room r : rooms) {
+                        if (r.getRoomNo().equalsIgnoreCase(roomNo.trim())) {
+                            selectedRoom = r;
+                            break;
+                        }
+                    }
 
                     if (selectedRoom == null) {
                         JOptionPane.showMessageDialog(this, "Room does not exist!");
@@ -72,21 +79,22 @@ public class AdminDashboard extends JFrame {
                     }
 
                     StudentDAO studentDAO = new StudentDAO();
-                    boolean updated = studentDAO.updateRoom(studentId, roomNoStr);
+                    boolean updated = studentDAO.updateRoom(studentId, roomNo);
+
                     if (updated) {
                         roomDAO.incrementAllocation(roomNo);
-                        JOptionPane.showMessageDialog(this, "Room allocated successfully!");
+                        JOptionPane.showMessageDialog(this, "✅ Room allocated successfully!");
                         loadStudents(model);
                     } else {
-                        JOptionPane.showMessageDialog(this, "Failed to allocate room.");
+                        JOptionPane.showMessageDialog(this, "❌ Failed to allocate room.");
                     }
 
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Enter a valid room number!");
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Error occurred while allocating room.");
+                    JOptionPane.showMessageDialog(this, "⚠️ Error occurred while allocating room.");
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Enter a valid room number!");
             }
         });
 
