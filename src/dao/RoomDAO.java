@@ -2,6 +2,7 @@ package dao;
 
 import util.DBConnection;
 import model.Room;
+import model.Student;
 import java.sql.*;
 import java.util.*;
 
@@ -17,7 +18,7 @@ public class RoomDAO {
 
         while (rs.next()) {
             Room r = new Room();
-            r.setRoomNo(rs.getString("room_no")); // room number as text
+            r.setRoomNo(rs.getString("room_no"));
             r.setCapacity(rs.getInt("capacity"));
             r.setAllocated(rs.getInt("allocated"));
             rooms.add(r);
@@ -47,23 +48,36 @@ public class RoomDAO {
 
     // Get the first room that has available capacity
     public Room getFirstAvailableRoom() throws Exception {
-        List<Room> rooms = getAllRooms(); // fetch all rooms
+        List<Room> rooms = getAllRooms();
         for (Room r : rooms) {
             if (isRoomAvailable(r)) {
-                return r; // return first room with free slot
+                return r;
             }
         }
-        return null; // no room available
+        return null;
     }
 
-    // Allocate a student to a room automatically
-    public String allocateRoom() throws Exception {
+    // Allocate a student to a room AND save allocation in DB
+    public String allocateRoomToStudent(Student student) throws Exception {
         Room room = getFirstAvailableRoom();
         if (room != null) {
-            incrementAllocation(room.getRoomNo()); // update allocation in DB
-            return room.getRoomNo(); // return assigned room number
+            // 1. Update allocated count in rooms table
+            incrementAllocation(room.getRoomNo());
+
+            // 2. Insert into allocations table
+            String sql = "INSERT INTO allocations (admission_no, room_no, allocation_date) VALUES (?, ?, ?)";
+            try (Connection con = DBConnection.getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql)) {
+
+                ps.setString(1, student.getAdmissionNo());
+                ps.setString(2, room.getRoomNo());
+                ps.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+                ps.executeUpdate();
+            }
+
+            return room.getRoomNo();
         } else {
-            return null; // no room available
+            return null; // no rooms available
         }
     }
 }
